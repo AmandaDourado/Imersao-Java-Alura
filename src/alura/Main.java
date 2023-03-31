@@ -1,10 +1,9 @@
 package alura;
 
-import java.io.BufferedWriter;
 import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -20,7 +19,7 @@ public class Main {
 	public static final String PURPLE_BACKGROUND = "\u001B[45m";
 	public static String estrela = "🌟";
 
-	public static void main(String[] args) throws IOException, InterruptedException {
+	public static void main(String[] args) throws Exception {
 		
 		// pegando a chave da API no arquivo de configurações
 		Properties prop = new Properties();
@@ -41,18 +40,17 @@ public class Main {
 
 		// exibir e manipular os dados
 		for (Map<String, String> filme : listaDeFilmes) {
-			System.out.println("");
-			System.out.println("Titulo do Filme: " + filme.get("title"));
-			System.out.println("Capa do Filme: " + filme.get("image"));
-			System.out.println(PURPLE_BACKGROUND + "Classificacao: " + filme.get("rank") + ANSI_RESET);
-
-			double nota = Double.parseDouble(filme.get("imDbRating"));
-			double notaArredondada = Math.round(nota);
-			for (int i = 1; i <= notaArredondada; i++) {
-				System.out.print(YELLOW + estrela + ANSI_RESET);
-			}
-			System.out.println(" ");
-
+			
+			String urlImagem = filme.get("image");
+			String titulo = filme.get("title");
+			
+			InputStream inputStream = new URL(urlImagem).openStream();
+			String nomeDoArquivo = titulo + ".png";
+			
+			var geradora = new GeradoraDeFigurinhas();
+			geradora.cria(inputStream, nomeDoArquivo);
+		
+			System.out.println(titulo);		
 		}
 
 	}
