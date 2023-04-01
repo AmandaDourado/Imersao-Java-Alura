@@ -48,7 +48,7 @@ public class Main {
 			String nomeDoArquivo = titulo + ".png";
 			
 			var geradora = new GeradoraDeFigurinhas();
-			geradora.cria(inputStream, nomeDoArquivo);
+			geradora.cria(inputStream, nomeDoArquivo, Double.parseDouble(filme.get("imDbRating")));
 		
 			System.out.println(titulo);		
 		}

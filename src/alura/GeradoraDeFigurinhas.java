@@ -10,32 +10,58 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 
 public class GeradoraDeFigurinhas {
-	
-	public void cria(InputStream inputStream, String nomeArquivo) throws Exception {
+
+	public void cria(InputStream inputStream, String nomeArquivo, double notaDoFilme) throws Exception {
+
+		// leitura da imagem
+		// InputStream inputStream = new FileInputStream(new
+		// File("entrada/filme-maior.jpg"));
+		// InputStream inputStream = new
+		// URL("https://assets.mycast.io/characters/trevor-spacey-7144920-nordomal.jpg?1655853528%22).openStream();
+		BufferedImage imagemOriginal = ImageIO.read(inputStream);
+
+		// cria nova imagem em memória com transparência e com tamanho novo
+		int largura = imagemOriginal.getWidth();
+		int altura = imagemOriginal.getHeight();
+		int novaAltura = altura + 200;
+		BufferedImage novaImagem = new BufferedImage(largura, novaAltura, BufferedImage.TRANSLUCENT);
 		
-	    // leitura da imagem
-        //InputStream inputStream = new FileInputStream(new File("entrada/filme-maior.jpg"));
-       //  InputStream inputStream = new URL("https://assets.mycast.io/characters/trevor-spacey-7144920-normal.jpg?1655853528%22).openStream();
-        BufferedImage imagemOriginal = ImageIO.read(inputStream);
+		// criando imagem do joinha
+		BufferedImage imagemJoinha = ImageIO.read(new File("./joinha/joinha.png"));	
 
-        // cria nova imagem em memória com transparência e com tamanho novo
-        int largura = imagemOriginal.getWidth();
-        int altura = imagemOriginal.getHeight();
-        int novaAltura = altura + 200;
-        BufferedImage novaImagem = new BufferedImage(largura, novaAltura, BufferedImage.TRANSLUCENT);
+		// copiar a imagem original para nova imagem (em memória)
+		Graphics2D graphics = (Graphics2D) novaImagem.getGraphics();
+		graphics.drawImage(imagemOriginal, 0, 0, null);
 
-        // copiar a imagem original para nova imagem (em memória)
-        Graphics2D graphics = (Graphics2D) novaImagem.getGraphics();
-        graphics.drawImage(imagemOriginal, 0, 0, null);
-
-        //configurar a fonte
-        var fonte = new Font(Font.SANS_SERIF, Font.BOLD, 64);
-        graphics.setColor(Color.YELLOW);
-        graphics.setFont(fonte);
-        // escrever na nova imagem
-        graphics.drawString("topzera", 100, novaAltura - 100);
-        // escrever a imagem nova em um arquivo
-        ImageIO.write(novaImagem, "png", new File(nomeArquivo));
+		// configurar a fonte
+		var fonte = new Font("Comic Sans MS", Font.BOLD, 64);
+		graphics.setColor(Color.magenta);
+		graphics.setFont(fonte);
+			
+		// escrever na nova imagem de acordo com a nota do filme
+		String textoDaImagem;
+		if(notaDoFilme > 9) {
+			textoDaImagem = "topzão";
+		} 
+		else {
+			textoDaImagem = "topzinho";
+		}		
+		
+		// centralizando o texto da imagem
+		var center = largura/2 - (textoDaImagem.length() * 20);  
+        graphics.drawString(textoDaImagem, center , novaAltura - 100);
+        
+        // inserindo borda na imagem
+        graphics.setColor(Color.WHITE);
+        graphics.drawRect(0,0, novaImagem.getWidth() - 1,novaImagem.getHeight() - 1);
+        
+		// inserindo o joinha na imagem
+		int alturaJoinha = altura - 5;
+		graphics.drawImage(imagemJoinha, 0, alturaJoinha, null);
+		
+		// escrever a imagem nova em um arquivo
+		ImageIO.write(novaImagem, "png", new File(nomeArquivo));
+		
 	}
 	
 }
