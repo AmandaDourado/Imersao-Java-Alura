@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 
 public class GeradoraDeFigurinhas {
 
-	public void cria(InputStream inputStream, String nomeArquivo, double notaDoFilme) throws Exception {
+	public void cria(InputStream inputStream, String nomeArquivo) throws Exception {
 
 		// leitura da imagem
 		// InputStream inputStream = new FileInputStream(new
@@ -38,14 +38,7 @@ public class GeradoraDeFigurinhas {
 		graphics.setColor(Color.magenta);
 		graphics.setFont(fonte);
 			
-		// escrever na nova imagem de acordo com a nota do filme
-		String textoDaImagem;
-		if(notaDoFilme > 9) {
-			textoDaImagem = "topzão";
-		} 
-		else {
-			textoDaImagem = "topzinho";
-		}		
+		String textoDaImagem = "topzera";
 		
 		// centralizando o texto da imagem
 		var center = largura/2 - (textoDaImagem.length() * 20);  
@@ -62,6 +55,5 @@ public class GeradoraDeFigurinhas {
 		// escrever a imagem nova em um arquivo
 		ImageIO.write(novaImagem, "png", new File(nomeArquivo));
 		
-	}
-	
+	}	
 }
