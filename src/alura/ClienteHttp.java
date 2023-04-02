@@ -18,10 +18,15 @@ public class ClienteHttp {
 			var request = HttpRequest.newBuilder(endereco).GET().build();
 			HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
 			String body = response.body();
-			return body;
+			return body;		
 			
-		} catch (IOException | InterruptedException ex) {
-			throw new RuntimeException(ex);
+		}
+		catch (IOException e) {
+			throw new TratamentoDeExceptions("Input incorreto! " + e.getMessage());
+			
+		} 
+		catch (InterruptedException e) {
+			throw new TratamentoDeExceptions("Thread interrompido!" + e.getMessage());
 		}
 		
 

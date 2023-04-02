@@ -14,18 +14,19 @@ public class Main {
 	public static String estrela = "🌟";
 
 	public static void main(String[] args) throws Exception {
-		
-		
+	
 		Properties prop = new Properties();
 		FileInputStream file = new FileInputStream("./properties/conf.properties");
 		prop.load(file);
-		String urlProperty = prop.getProperty("chave.acesso.api");
+		String urlPropertyIMDB = prop.getProperty("chave.acesso.api.imdb");
+		String urlPropertyNasa = prop.getProperty("chave.acesso.api.nasa");	
 		
 		var http = new ClienteHttp();
-		String json = http.buscaDados(urlProperty);
+		//String json = http.buscaDados(urlPropertyNasa);
+		String json = http.buscaDados(urlPropertyIMDB);
 		
 		// exibir e manipular os dados
-		ExtratorDeConteudo extrator = new ExtratorDeConteudoDoIMDB();
+		ExtratorDeConteudo extrator = new ExtratorConteudoIMDB();
 		var geradora = new GeradoraDeFigurinhas();
 		List <Conteudo> conteudos = extrator.extraiConteudos(json);
 		
@@ -39,6 +40,7 @@ public class Main {
 			geradora.cria(inputStream, nomeDoArquivo);
 		
 			System.out.println(conteudo.getTitulo());		
+			
 		}
 
 	}
