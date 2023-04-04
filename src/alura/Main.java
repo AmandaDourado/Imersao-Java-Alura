@@ -20,10 +20,11 @@ public class Main {
 		prop.load(file);
 		String urlPropertyIMDB = prop.getProperty("chave.acesso.api.imdb");
 		String urlPropertyNasa = prop.getProperty("chave.acesso.api.nasa");	
+		String urlPropertyLinguagens = prop.getProperty("chave.acesso.api.linguagens");	
 		
 		var http = new ClienteHttp();
 		//String json = http.buscaDados(urlPropertyNasa);
-		String json = http.buscaDados(urlPropertyIMDB);
+		String json = http.buscaDados(urlPropertyLinguagens);
 		
 		// exibir e manipular os dados
 		ExtratorDeConteudo extrator = new ExtratorConteudoIMDB();
